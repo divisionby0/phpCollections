@@ -2,6 +2,7 @@
 
 class Map {
     private $collection;
+    private $id;
 
     public function __construct(){
         $this->collection = array();
@@ -71,6 +72,13 @@ class Map {
     }
     public function dumpCollection(){
         return var_dump($this->collection);
+    }
+
+    public function setId($id){
+        $this->id = $id;
+    }
+    public function getId(){
+        return $this->id;
     }
 
     private function isEmpty(){
