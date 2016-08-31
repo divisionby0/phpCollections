@@ -36,6 +36,20 @@ class Map {
             }
         }
     }
+    public function getKeyIndex($key){
+        $keys = array_keys($this->collection);
+        $index = -1;
+        $i = 0;
+        $length = $this->size();
+        for($i=0; $i<$length; $i++){
+            $currentKey = $keys[$i];
+            if($currentKey == $key){
+                $index = $i;
+                break;
+            }
+        }
+        return $index;
+    }
 
     public function update($key, $value){
         $keyExists = $this->isKeyExists($key);

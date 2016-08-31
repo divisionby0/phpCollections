@@ -7,7 +7,7 @@ class MapTesting {
 
     private $map;
     private $mapSize;
-    private  $unusedKey = 'empty_key';
+    private $unusedKey = 'empty_key';
 
     private  $firstKey = 'firstKey';
     private  $firstValue = 'firstValue';
@@ -56,6 +56,10 @@ class MapTesting {
         $this->map->add($this->thirdKey, $this->thirdValue);
 
         $this->testPassed();
+
+        // test get key index
+        $this->testGetKeyIndex();
+
         $this->testCollectionSize(3);
 
         $this->testGetThirdValueByKey();
@@ -93,6 +97,42 @@ class MapTesting {
         $this->testPassed();
 
         $this->testCollectionSize(0);
+    }
+
+    private function testGetKeyIndex(){
+        Logger::logMessage('Testing get key index...');
+        $expectedFirstKeyIndex = 0;
+        $mapFirstKeyIndex = $this->map->getKeyIndex($this->firstKey);
+
+        $expectedSecondKeyIndex = 1;
+        $mapSecondKeyIndex = $this->map->getKeyIndex($this->secondKey);
+
+        $expectedThirdKeyIndex = 2;
+        $mapThirdKeyIndex = $this->map->getKeyIndex($this->thirdKey);
+
+        Logger::logMessage('<font color="blue"> expectedFirstKeyIndex:'.$expectedFirstKeyIndex.'  map first key index:'.$mapFirstKeyIndex.'</font>');
+        if($expectedFirstKeyIndex==$mapFirstKeyIndex){
+            $this->testPassed();
+        }
+        else{
+            Logger::logError('Assertion error. Expected key index: '.$expectedFirstKeyIndex.'  received key index:'.$mapFirstKeyIndex);
+        }
+
+        Logger::logMessage('<font color="blue"> expectedSecondKeyIndex:'.$expectedSecondKeyIndex.'  map second key index:'.$mapSecondKeyIndex.'</font>');
+        if($expectedSecondKeyIndex==$mapSecondKeyIndex){
+            $this->testPassed();
+        }
+        else{
+            Logger::logError('Assertion error. Expected key index: '.$expectedSecondKeyIndex.'  received key index:'.$mapSecondKeyIndex);
+        }
+
+        Logger::logMessage('<font color="blue"> expectedThirdKeyIndex:'.$expectedThirdKeyIndex.'  map third key index:'.$mapThirdKeyIndex.'</font>');
+        if($expectedThirdKeyIndex==$mapThirdKeyIndex){
+            $this->testPassed();
+        }
+        else{
+            Logger::logError('Assertion error. Expected key index: '.$expectedThirdKeyIndex.'  received key index:'.$mapThirdKeyIndex);
+        }
     }
 
     private function testGetFirstValueByKey(){
