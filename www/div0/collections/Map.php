@@ -36,6 +36,9 @@ class Map {
             }
         }
     }
+    public function getKeys(){
+        return array_keys($this->collection);
+    }
     public function getKeyIndex($key){
         $keys = array_keys($this->collection);
         $index = -1;
@@ -93,6 +96,10 @@ class Map {
     }
     public function getId(){
         return $this->id;
+    }
+
+    public function getJsonEncoder(){
+        return new MapJsonEncoder($this->collection);
     }
 
     private function isEmpty(){

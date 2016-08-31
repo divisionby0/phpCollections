@@ -1,5 +1,6 @@
 <?php
 include_once('div0/utils/Logger.php');
+include_once('div0/collections/json/MapJsonUtils.php');
 include_once('div0/collections/Map.php');
 include_once('div0/collections/exceptions/CollectionException.php');
 include_once('div0/collections/iterators/MapIterator.php');
@@ -7,6 +8,8 @@ include_once('div0/collections/iterators/MapIterator.php');
 class TableTesting {
     private $map;
     private $mapIterator;
+
+    private $jsonUtils;
 
     private $row1_id = 'row_1';
     private $row2_id = 'row_2';
@@ -16,6 +19,11 @@ class TableTesting {
     public function __construct(){
         $this->map = new Map();
         $this->createRows();
+
+        $jsonUtils = new MapJsonUtils();
+
+        $encoded = $jsonUtils->encode($this->map);
+        Logger::logMessage('JSON: '.$encoded);
     }
 
     private function createRows(){
