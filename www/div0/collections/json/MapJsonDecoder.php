@@ -36,8 +36,8 @@ class MapJsonDecoder {
         $map->add($key, $value);
     }
 
-    private function isJson($string) {
-        json_decode($string);
+    private function isJson($data) {
+        json_decode($data);
         return (json_last_error() == JSON_ERROR_NONE);
     }
 } 

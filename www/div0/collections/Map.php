@@ -4,7 +4,10 @@ class Map {
     private $collection;
     private $id;
 
-    public function __construct(){
+    public function __construct($id){
+        if($id){
+            $this->id = $id;
+        }
         $this->collection = array();
     }
 
