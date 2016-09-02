@@ -9,27 +9,61 @@ class MapJsonDecoder {
     }
 
     public function decode(){
-        $rootMap = new Map();
+        $rootMap = new Map('rootMap');
+        Logger::logMessage('Decoding  '.$this->dataString);
         $this->decodeObject($rootMap, $this->dataString);
         return $rootMap;
     }
 
     private function decodeObject($parentMap, $dataString){
-        $decodedObject = json_decode($dataString);
+        $stringIsJson = $this->isJson($dataString);
+        Logger::logMessage('Is json: '.$stringIsJson);
+        if($stringIsJson){
+            $decodedObject = $this->decodeFromString($dataString);
+        }
+        else{
+            throw new MapJsonEncoderException('MapJsonDecoder error. Data is not json');
+        }
 
+        /*
+        $decodedObject = json_decode($dataString);
+        $jsonDecodeException = json_last_error();
+        if($jsonDecodeException){
+            Logger::logError($jsonDecodeException);
+            throw new MapJsonEncoderException('MapJsonDecoder exception. '.$jsonDecodeException);
+        }
+        */
+
+        $this->iterateObject($decodedObject, $parentMap);
+
+    }
+
+    private function iterateObject($decodedObject, $parentMap){
         foreach($decodedObject as $key=>$value){
             $valueIsJson = $this->isJson($value);
 
             if($valueIsJson){
-                $subMap = new Map();
+                $subMap = new Map('subMap');
 
                 $parentMap->add($key, $subMap);
                 $this->decodeObject($subMap, $value);
             }
             else{
-                $this->addToMap($parentMap, $key, $value);
+                $this->iterateObject($parentMap, $key, $value);
             }
         }
+    }
+
+    private function decodeFromString($dataString){
+        $decodedObject = json_decode($dataString);
+        $jsonDecodeException = json_last_error();
+
+        if($jsonDecodeException){
+            Logger::logError($jsonDecodeException);
+            throw new MapJsonEncoderException('MapJsonDecoder exception. '.$jsonDecodeException);
+            return;
+        }
+        return $decodedObject;
     }
 
     private function addToMap($map, $key, $value){
