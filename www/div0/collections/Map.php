@@ -15,7 +15,7 @@ class Map {
         $keyExists = $this->isKeyExists($key);
 
         if($keyExists == true){
-            throw new KeyExistsException('key "'.$key.'" already exists');
+            throw new CollectionException('key "'.$key.'" already exists');
         }
         else{
             $this->collection[$key] = $value;

@@ -10,68 +10,102 @@ class MapJsonDecoder {
 
     public function decode(){
         $rootMap = new Map('rootMap');
-        Logger::logMessage('Decoding  '.$this->dataString);
         $this->decodeObject($rootMap, $this->dataString);
         return $rootMap;
     }
 
     private function decodeObject($parentMap, $dataString){
-        $stringIsJson = $this->isJson($dataString);
-        Logger::logMessage('Is json: '.$stringIsJson);
-        if($stringIsJson){
-            $decodedObject = $this->decodeFromString($dataString);
-        }
-        else{
-            throw new MapJsonEncoderException('MapJsonDecoder error. Data is not json');
-        }
-
-        /*
+       // Logger::logMessage('Decoding...');
         $decodedObject = json_decode($dataString);
-        $jsonDecodeException = json_last_error();
-        if($jsonDecodeException){
-            Logger::logError($jsonDecodeException);
-            throw new MapJsonEncoderException('MapJsonDecoder exception. '.$jsonDecodeException);
-        }
-        */
 
-        $this->iterateObject($decodedObject, $parentMap);
+        //Logger::logMessage('Decoded Object');
+        //var_dump($decodedObject);
 
-    }
-
-    private function iterateObject($decodedObject, $parentMap){
         foreach($decodedObject as $key=>$value){
-            $valueIsJson = $this->isJson($value);
 
-            if($valueIsJson){
+            //Logger::logMessage("key: ".$key);
+            $elementIsObject= is_object($value);
+
+            //Logger::logMessage(' isObject:'.$elementIsObject);
+
+            //$valueIsMap = $this->isMap($value);
+            if($elementIsObject){
                 $subMap = new Map('subMap');
-
-                $parentMap->add($key, $subMap);
-                $this->decodeObject($subMap, $value);
+                $this->addToMap($parentMap, $key, $subMap);
+                $this->iterateObject($subMap, $value);
             }
             else{
-                $this->iterateObject($parentMap, $key, $value);
+
+                //Logger::logMessage('adding property to map '.$parentMap->getId().' prop key:'.$key.'  propValue: '.$value);
+                if($key === "id"){
+                    //Logger::logMessage('set id');
+                    $parentMap->setId($key);
+                }
+                else{
+                    $this->addToMap($parentMap, $key, $value);
+                }
             }
         }
     }
 
-    private function decodeFromString($dataString){
-        $decodedObject = json_decode($dataString);
-        $jsonDecodeException = json_last_error();
+    private function iterateObject($parentMap, $object){
 
-        if($jsonDecodeException){
-            Logger::logError($jsonDecodeException);
-            throw new MapJsonEncoderException('MapJsonDecoder exception. '.$jsonDecodeException);
-            return;
+        //Logger::logMessage('<h1>Iterate Object</h1>');
+        //var_dump($object);
+
+        foreach($object as $key=>$value){
+            //$valueIsMap = $this->isMap($value);
+            //Logger::logMessage("key: ".$key);
+            $elementIsObject= is_object($value);
+
+            //Logger::logMessage(' isObject:'.$elementIsObject);
+
+            if($elementIsObject){
+                $subSubMap = new Map('subSubMap');
+                $this->addToMap($parentMap, $key, $subSubMap);
+                $this->iterateObject($subSubMap, $value);
+            }
+            else{
+                //Logger::logMessage('adding property to map '.$parentMap->getId().' prop key:'.$key.'  propValue: '.$value);
+                if($key === "id"){
+                    $parentMap->setId($key);
+                }
+                else{
+                    $this->addToMap($parentMap, $key, $value);
+                }
+            }
         }
-        return $decodedObject;
     }
 
     private function addToMap($map, $key, $value){
-        $map->add($key, $value);
+        try{
+            $map->add($key, $value);
+        }
+        catch(CollectionException $exception){
+            Logger::logError($exception->getMessage());
+        }
     }
 
-    private function isJson($data) {
-        json_decode($data);
-        return (json_last_error() == JSON_ERROR_NONE);
+
+
+    private function isMap($data) {
+        try{
+            $reflect = new ReflectionClass($data);
+            $elementClass = $reflect->getShortName();
+            //Logger::logMessage('element class: '.$elementClass);
+
+            if($elementClass === "stdClass"){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        catch(ReflectionException $exception){
+            Logger::logError($exception->getMessage());
+            return false;
+        }
+
+        return false;
     }
 } 
