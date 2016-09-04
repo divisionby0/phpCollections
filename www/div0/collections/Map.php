@@ -102,7 +102,7 @@ class Map {
     }
 
     public function getJsonEncoder(){
-        return new MapJsonEncoder($this->collection);
+        return new MapJsonEncoder($this->collection, $this->id);
     }
 
     private function isEmpty(){

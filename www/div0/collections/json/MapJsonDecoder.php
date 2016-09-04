@@ -15,7 +15,7 @@ class MapJsonDecoder {
     }
 
     private function decodeObject($parentMap, $dataString){
-       // Logger::logMessage('Decoding...');
+        //Logger::logMessage('Decoding...');
         $decodedObject = json_decode($dataString);
 
         //Logger::logMessage('Decoded Object');
@@ -38,8 +38,8 @@ class MapJsonDecoder {
 
                 //Logger::logMessage('adding property to map '.$parentMap->getId().' prop key:'.$key.'  propValue: '.$value);
                 if($key === "id"){
-                    //Logger::logMessage('set id');
-                    $parentMap->setId($key);
+                   // Logger::logMessage('set id '.$value.' to map '.$parentMap->getId());
+                    $parentMap->setId($value);
                 }
                 else{
                     $this->addToMap($parentMap, $key, $value);

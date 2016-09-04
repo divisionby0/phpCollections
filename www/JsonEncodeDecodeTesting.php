@@ -54,10 +54,12 @@ class JsonEncodeDecodeTesting {
         $this->encodedString = $this->jsonEncoder->encode();
         Logger::logMessage('JSON: '.$this->encodedString);
 
+        /*
         $jsDataMap  = null;
         //$testJSEncodedString = '{"1":{"id":"subMap1","key1":"\"sub1_1\"","key2":"\"sub1_2\"","key3":"\"sub1_3\""},"2":{"id":"subMap2","key1":"\"sub2_1\"","key2":"\"sub2_2\"","key3":"\"sub2_3\""},"3":{"id":"subMap3","key1":"\"sub3_1\"","key2":"\"sub3_2\"","key3":"\"sub3_3\""},"id":"rootMap"}';
         $testJSEncodedString = '{"1":"{\"1\":\"sub1_1\",\"2\":\"sub1_2\",\"3\":\"sub1_3\"}","2":"{\"1\":\"sub2_1\",\"2\":\"sub2_2\",\"3\":\"sub2_3\"}","3":"{\"1\":\"sub3_1\",\"2\":\"sub3_2\",\"3\":\"sub3_3\"}"}';
         $jsDataMap = $this->decode($testJSEncodedString);
+        */
     }
 
     private function decode($string){

@@ -1,9 +1,11 @@
 <?php
 
 class MapJsonEncoder {
+    private $mapId;
     private $dataArray; // source array of Map
 
-    public function __construct($dataArray){
+    public function __construct($dataArray, $mapId){
+        $this->mapId = $mapId;
         $this->dataArray = $dataArray;
     }
 
@@ -13,6 +15,7 @@ class MapJsonEncoder {
 
     private function getEncodedArray($dataArray){
         $collectionArray = array();
+        $collectionArray["id"] = $this->mapId;
 
         $keys = array_keys($this->dataArray);
 
