@@ -1,19 +1,16 @@
 <?php
 
-
-class MapIterator {
-    private $collection;
+class MapIterator extends AbstractCollectionIterator{
     private $keys;
-    private $index = -1;
 
     public function __construct($collection){
-        $this->collection = $collection;
+        parent::__construct($collection);
         $this->keys = array_keys($this->collection);
     }
 
     public function hasNext(){
-        $nextIndex = $this->index + 1;
-        if($nextIndex<count($this->keys)){
+        parent::hasNext();
+        if($this->nextIndex<count($this->keys)){
             return true;
         }
         else{
@@ -22,7 +19,7 @@ class MapIterator {
     }
 
     public function next(){
-        $this->index = $this->index + 1;
+        parent::next();
         $key = $this->keys[$this->index];
         return $this->collection[$key];
     }

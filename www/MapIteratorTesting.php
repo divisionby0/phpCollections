@@ -4,6 +4,8 @@ include_once('div0/collections/ICollection.php');
 include_once('div0/collections/AbstractCollection.php');
 include_once('div0/collections/Map.php');
 include_once('div0/collections/exceptions/CollectionException.php');
+
+include_once('div0/collections/iterators/AbstractCollectionIterator.php');
 include_once('div0/collections/iterators/MapIterator.php');
 
 class MapIteratorTesting {
