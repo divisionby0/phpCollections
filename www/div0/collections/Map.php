@@ -1,7 +1,6 @@
 <?php
 
-class Map {
-    private $collection;
+class Map extends AbstractCollection{
     private $id;
 
     public function __construct($id){
@@ -15,7 +14,8 @@ class Map {
         $keyExists = $this->isKeyExists($key);
 
         if($keyExists == true){
-            throw new CollectionException('key "'.$key.'" already exists');
+            //throw new CollectionException('key "'.$key.'" already exists');
+            $this->update($key, $value);
         }
         else{
             $this->collection[$key] = $value;
@@ -103,15 +103,6 @@ class Map {
 
     public function getJsonEncoder(){
         return new MapJsonEncoder($this->collection, $this->id);
-    }
-
-    private function isEmpty(){
-        if($this->size() > 0){
-            return false;
-        }
-        else{
-            return true;
-        }
     }
 
     private function isKeyExists($key){

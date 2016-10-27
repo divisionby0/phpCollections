@@ -15,11 +15,10 @@ class MapJsonDecoder {
     }
 
     private function decodeObject($parentMap, $dataString){
-        //Logger::logMessage('Decoding...');
-        $decodedObject = json_decode($dataString);
 
-        //Logger::logMessage('Decoded Object');
-        //var_dump($decodedObject);
+        Logger::logMessage('Decoding '.$dataString);
+
+        $decodedObject = json_decode($dataString);
 
         foreach($decodedObject as $key=>$value){
 

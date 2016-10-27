@@ -1,6 +1,9 @@
 <?php
 
 include_once('div0/utils/Logger.php');
+
+include_once('div0/collections/ICollection.php');
+include_once('div0/collections/AbstractCollection.php');
 include_once('div0/collections/Map.php');
 include_once('div0/collections/exceptions/CollectionException.php');
 include_once('div0/collections/json/MapJsonEncoder.php');
@@ -45,8 +48,12 @@ class JsonEncodeDecodeTesting {
             return;
         }
 
+        $this->encodedString = "'".$this->encodedString."'";
+        $this->encodedString = htmlspecialchars($this->encodedString);
+
         Logger::logMessage('JSON: '.$this->encodedString);
 
+        $this->encodedString = '{"10000":"10000","15000":"15000","25000":"25000","50000":"50000","100000":"100000","150000":"150000","id":"benefits","type":"Map"}';
 
         $this->decodedMap = $this->decode($this->encodedString);
 
