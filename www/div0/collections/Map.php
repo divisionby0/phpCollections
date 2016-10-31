@@ -68,6 +68,10 @@ class Map extends AbstractCollection{
             throw new CollectionException('key '.$key.' not exists');
         }
     }
+    
+    public function has($key){
+        return $this->isKeyExists($key);
+    }
 
     public function remove($key){
         $keyExists = $this->isKeyExists($key);
