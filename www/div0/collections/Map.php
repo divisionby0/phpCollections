@@ -97,6 +97,10 @@ class Map extends AbstractCollection{
     public function dumpCollection(){
         return var_dump($this->collection);
     }
+    public function sortByKey(){
+        $sorter = new MapSorterByKey();
+        $this->collection = $sorter->sort($this->collection);
+    }
 
     public function setId($id){
         $this->id = $id;

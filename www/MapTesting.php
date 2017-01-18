@@ -21,7 +21,7 @@ class MapTesting {
     private  $thirdValue = 'thirdValue';
 
     public function __construct(){
-        $this->map = new Map();
+        $this->map = new Map('testMap');
 
         $this->testCollectionSize(0);
 

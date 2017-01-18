@@ -7,4 +7,7 @@ class Logger {
     public static function logError($error){
         echo '<p style="color: red; font-size: 11px">'.$error.'</p>';
     }
+    public static function logObject($object){
+        var_dump($object);
+    }
 } 
